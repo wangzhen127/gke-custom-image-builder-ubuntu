@@ -77,6 +77,12 @@ build {
     execute_command = "sudo /bin/bash {{.Path}}"
   }
 
+  # Step 3: Upload and execute the CUDA toolkit installation script.
+  provisioner "shell" {
+    script          = "install_cuda_toolkit.sh"
+    execute_command = "sudo /bin/bash {{.Path}}"
+  }
+
   # optional: Reboot the instance to apply kernel changes.
   provisioner "shell" {
     inline = ["sudo reboot"]

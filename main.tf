@@ -96,6 +96,11 @@ resource "google_storage_bucket_object" "setup_kernel_params_script" {
   source = "${path.module}/scripts/ubuntu/setup_kernel_params.sh"
 }
 
+resource "google_storage_bucket_object" "install_cuda_toolkit_script" {
+  bucket = google_storage_bucket.imagebuild_scripts.name
+  name   = "ubuntu_scripts/install_cuda_toolkit.sh"
+  source = "${path.module}/scripts/ubuntu/install_cuda_toolkit.sh"
+}
 
 # Module to define the Cloud Build pipeline for the Ubuntu image
 module "gke-ubuntu-image-pipeline" {
@@ -111,7 +116,6 @@ module "gke-ubuntu-image-pipeline" {
   target_image_name = var.target_image_name
   target_image_family = var.target_image_family
   service_account_id = google_service_account.imagebuild_sa.name
-  
   customization_script_source = "${path.root}/scripts/ubuntu/customize_ubuntu.pkr.hcl"
   #customization_script_source = ""
 }
